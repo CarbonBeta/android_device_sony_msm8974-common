@@ -17,6 +17,9 @@ COMMON_PATH := device/sony/msm8974-common
 # Include msm8974-common system properties
 -include $(LOCAL_PATH)/systemprop.mk
 
+# inherit hidl hals
+$(call inherit-product, device/sony/msm8974-common/hidl.mk)
+
 # Audio
 PRODUCT_PACKAGES += \
     audiod \
@@ -38,11 +41,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf
 
-# Specific apps
-PRODUCT_PACKAGES += \
-    Snap \
-    Jelly
-
 # Display
 PRODUCT_PACKAGES += \
     hwcomposer.msm8974 \
@@ -55,6 +53,16 @@ PRODUCT_PACKAGES += \
     libqdutils \
     libtilerenderer \
     libI420colorconvert
+
+# GPS
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/gps/flp.conf:system/etc/flp.conf \
+    $(COMMON_PATH)/gps/gps.conf:system/etc/gps.conf \
+    $(COMMON_PATH)/gps/izat.conf:system/etc/izat.conf \
+    $(COMMON_PATH)/gps/sap.conf:system/etc/sap.conf \
+    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml
+PRODUCT_PACKAGES += \
+    gps.msm8974
 
 # Ion
 PRODUCT_PACKAGES += \
@@ -102,12 +110,13 @@ endif
 PRODUCT_PACKAGES += \
     power.msm8974
 
-
 # Camera (stock blobs)
 PRODUCT_PACKAGES += \
-	libshims_signal \
-	libshims_idd \
-    libsonycamera
+	camera.qcom \
+    libshims_signal \
+    libshims_idd \
+    libsonycamera \
+    libGraphicBuffer
 
 # Recovery
 PRODUCT_PACKAGES += \
@@ -121,9 +130,16 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     thermanager
 
+# TimeKeep for managing time offsets w.r.t. RTC
+PRODUCT_PACKAGES += \
+    timekeep \
+    TimeKeep
+
 # Wifi
 PRODUCT_PACKAGES += \
     libwpa_client \
     hostapd \
+    wificond \
+    wifilogd \
     wpa_supplicant \
     wpa_supplicant.conf

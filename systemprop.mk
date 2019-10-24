@@ -16,11 +16,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.mdpcomp.logs=0 \
     debug.mdpcomp.4k2kSplit=1 \
     debug.mdpcomp.4k2kSplit=true \
-    dev.pm.dyn_samplingrate=1
+    dev.pm.dyn_samplingrate=1 \
+    debug.hwui.use_buffer_age=false
 
 # OpenGL ES 3.0
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.opengles.version=196608
+    
+# OMX properties
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.media.treble_omx=false
 
 # HDMI
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -69,10 +74,12 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
+    camera.disable_treble=true \
     ro.qc.sdk.camera.facialproc=false \
     ro.qc.sdk.gestures.camera=false \
     camera.disable_zsl_mode=1 \
-    persist.camera.HAL3.enabled=0
+    persist.camera.HAL3.enabled=0 \
+    camera2.portability.force_api=1
 
 # CameraAV MM HAL1 hacks
 PRODUCT_PROPERTY_OVERRIDES += \
